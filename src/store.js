@@ -6,22 +6,50 @@ export const store = reactive({
             type: 'and',
             x: 100,
             y: 100,
-            aState: false,
-            bState: false,
-            outState: false,
+            nodes: {
+                a: {
+                    state: false,
+                    xOffset: 0,
+                    yOffset: 20,
+                },
+                b: {
+                    state: false,
+                    xOffset: 0,
+                    yOffset: 60,
+                },
+                out: {
+                    state: false,
+                    xOffset: 100,
+                    yOffset: 40,
+                },
+            }
         },
         {
             type: 'and',
             x: 300,
             y: 100,
-            aState: false,
-            bState: false,
-            outState: false,
+            nodes: {
+                a: {
+                    state: false,
+                    xOffset: 0,
+                    yOffset: 20,
+                },
+                b: {
+                    state: false,
+                    xOffset: 0,
+                    yOffset: 60,
+                },
+                out: {
+                    state: false,
+                    xOffset: 100,
+                    yOffset: 40,
+                },
+            }
         }
     ],
     connections: [
         {
-            nodes: [{type: 'gateOut', id: 0}, {type: 'gateA', id: 1}],
+            nodes: [{gate: 0, dest: 'out'}, {gate: 1, dest: 'a'}],
             state: false,
         }
     ]

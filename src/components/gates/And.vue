@@ -16,16 +16,16 @@ import {computed, onMounted, ref, watch} from "vue";
         set: val => store.gates[props.id].y = val,
     })
     const aState = computed({
-        get: () => store.gates[props.id].aState,
-        set: val => store.gates[props.id].aState = val,
+        get: () => store.gates[props.id].nodes.a.state,
+        set: val => store.gates[props.id].nodes.a.state = val,
     })
     const bState = computed({
-        get: () => store.gates[props.id].bState,
-        set: val => store.gates[props.id].bState = val,
+        get: () => store.gates[props.id].nodes.b.state,
+        set: val => store.gates[props.id].nodes.b.state = val,
     })
     const outState = computed({
         get: () => aState.value && bState.value,
-        set: val => store.gates[props.id].outState = val,
+        set: val => store.gates[props.id].nodes.out.state = val,
     })
 
     const aColor = computed(() => {
