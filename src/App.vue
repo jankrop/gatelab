@@ -1,47 +1,33 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import And from "@/components/gates/And.vue";
+
+import { store } from "@/store.js";
+import Connection from "@/components/Connection.vue";
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <svg class="workspace">
+        <g v-for="(connection, id) in store.connections">
+            <Connection :id="id" />
+        </g>
+        <g v-for="(gate, id) in store.gates">
+            <And :id="id" />
+        </g>
+    </svg>
+    <div class="toolbar">
+        <button>NOT</button>
+        <button>AND</button>
+        <button>OR</button>
+        <button>XOR</button>
+        <button>NAND</button>
+        <button>NOR</button>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
+    .workspace {
+        background-color: white;
+        width: 1800px;
+        height: 800px;
+    }
 </style>
