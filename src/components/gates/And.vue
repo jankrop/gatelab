@@ -29,15 +29,15 @@ import {computed, onMounted, ref, watch} from "vue";
     })
 
     const aColor = computed(() => {
-        return aState.value ? '#2c6' : '#f46'
+        return aState.value ? '#2c6' : '#063'
     })
 
     const bColor = computed(() => {
-        return bState.value ? '#2c6' : '#f46'
+        return bState.value ? '#2c6' : '#063'
     })
 
     const outColor = computed(() => {
-        return outState.value ? '#2c6' : '#f46'
+        return outState.value ? '#2c6' : '#063'
     })
 
     onMounted(() => {

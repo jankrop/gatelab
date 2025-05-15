@@ -29,8 +29,26 @@ const state = computed({
     }
 })
 
+const x1 = computed(() => {
+    const node = store.connections[props.id].nodes[0]
+    return store.gates[node.gate].x + store.gates[node.gate].nodes[node.dest].xOffset
+})
+const y1 = computed(() => {
+    const node = store.connections[props.id].nodes[0]
+    return store.gates[node.gate].y + store.gates[node.gate].nodes[node.dest].yOffset
+})
+const x2 = computed(() => {
+    const node = store.connections[props.id].nodes[1]
+    return store.gates[node.gate].x + store.gates[node.gate].nodes[node.dest].xOffset
+})
+const y2 = computed(() => {
+    const node = store.connections[props.id].nodes[1]
+    return store.gates[node.gate].y + store.gates[node.gate].nodes[node.dest].yOffset
+})
+
+
 const color = computed(() => {
-    return state.value === 'undefined' ? '#446' : (state.value ? '#2c6' : '#f46')
+    return state.value === 'undefined' ? '#446' : (state.value ? '#2c6' : '#063')
 })
 
 onMounted(() => {
@@ -41,5 +59,5 @@ watch(store, async () => {state.value = state.value})
 </script>
 
 <template>
-
+    <line :x1="x1" :y1="y1" :x2="x2" :y2="y2" :stroke="color" stroke-width="4" />
 </template>
