@@ -1,8 +1,9 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
+    import {computed, onMounted, ref, watch} from "vue";
     import { store } from "@/store.js";
-import Nand from "@/components/gates/Nand.vue";
-import And from "@/components/gates/And.vue";
+    import Nand from "@/components/gates/Nand.vue";
+    import And from "@/components/gates/And.vue";
+    import Not from "@/components/gates/Not.vue";
 
     const props = defineProps({
         id: Number,
@@ -14,7 +15,9 @@ import And from "@/components/gates/And.vue";
     const gate = computed({
         get: () => store.gates[props.id],
         set: val => {
-            val.nodes.out.state = val.operation(val.nodes.a.state, val.nodes.b.state)
+            val.nodes.out.state = val.name === 'not' ?
+                val.operation(val.nodes.a.state) :
+                val.operation(val.nodes.a.state, val.nodes.b.state)
             store.gates[props.id] = val
         },
     })
@@ -26,30 +29,6 @@ import And from "@/components/gates/And.vue";
     const y = computed({
         get: () => store.gates[props.id].y,
         set: val => store.gates[props.id].y = val,
-    })
-    const aState = computed({
-        get: () => store.gates[props.id].nodes.a.state,
-        set: val => store.gates[props.id].nodes.a.state = val,
-    })
-    const bState = computed({
-        get: () => store.gates[props.id].nodes.b.state,
-        set: val => store.gates[props.id].nodes.b.state = val,
-    })
-    const outState = computed({
-        get: () => store.gates[props.id].operation(gate.value.nodes.a.state, gate.value.nodes.b.state),
-        set: val => store.gates[props.id].nodes.out.state = val,
-    })
-
-    const aColor = computed(() => {
-        return gate.value.nodes.a.state ? '#2c6' : '#063'
-    })
-
-    const bColor = computed(() => {
-        return gate.value.nodes.b.state ? '#2c6' : '#063'
-    })
-
-    const outColor = computed(() => {
-        return gate.value.nodes.out.state ? '#2c6' : '#063'
     })
 
     function handleMouseDown(ev) {
@@ -90,13 +69,12 @@ import And from "@/components/gates/And.vue";
     <g fill="#bbb" opacity="0.9" :class="{draggable: draggable}" @mousedown="handleMouseDown">
         <And v-if="gate.name === 'and'" :x="x" :y="y" />
         <Nand v-if="gate.name === 'nand'" :x="x" :y="y" />
+        <Not v-if="gate.name === 'not'" :x="x" :y="y" />
     </g>
     <circle
         v-for="(node, key) in gate.nodes"
         :fill="getColor(node.state)" r="6" :cx="gate.x + node.xOffset" :cy="gate.y + node.yOffset"
         @click="gate.nodes[key].state = !gate.nodes[key].state"/>
-<!--    <circle :fill="bColor" r="6" :cx="x" :cy="y + 60" @click="gate.nodes.b.state = !gate.nodes.b.state"/>-->
-<!--    <circle :fill="outColor" r="6" :cx="x + 100" :cy="y + 40" />-->
 </template>
 
 <style scoped>

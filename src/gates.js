@@ -54,8 +54,8 @@ export class Not extends Gate {
     constructor(x, y) {
         super(x, y);
         this.nodes = {
-            a: new Node(0, 40),
-            out: new Node(100, 40),
+            a: new Node(0, 20),
+            out: new Node(68, 20),
         }
     }
 }
@@ -70,6 +70,17 @@ export class Nor extends NegatedDoubleInputGate {
 export class Xnor extends NegatedDoubleInputGate {
     name = 'xnor'
     operation = (a, b) => a === b;
+}
+export class Input extends Gate {
+    name = 'input'
+    constructor(x, y) {
+        super(x, y);
+        this.state = false;
+        this.operation = () => this.state;
+        this.nodes = {
+            out: new Node(30, 15)
+        }
+    }
 }
 
 export class Connection {

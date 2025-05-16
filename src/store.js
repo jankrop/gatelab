@@ -1,10 +1,11 @@
 import { reactive } from "vue";
-import {And, Nand, Or} from "@/gates.js";
+import {And, Nand, Or, Not} from "@/gates.js";
 
 export const store = reactive({
     gates: [
         new And(100, 100),
         new Nand(300, 100),
+        new Not(500, 500),
         // {
         //     type: 'and',
         //     x: 100,
