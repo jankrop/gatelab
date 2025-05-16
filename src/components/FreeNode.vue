@@ -30,7 +30,10 @@ import {computed, onMounted, watch} from "vue";
 
 <template>
     <g :fill="getColor()">
-        <circle r="6" :cx="freeNode.x" :cy="freeNode.y" />
+        <circle
+            :r="0 < freeNode.nodes.length < 3 ? 2 : 6"
+            :cx="freeNode.x" :cy="freeNode.y"
+        />
     </g>
 </template>
 
