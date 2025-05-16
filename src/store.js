@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import {And, Nand, Or, Not, Connection, FreeNode, Node, Input} from "@/gates.js";
+import {And, Nand, Or, Not, Connection, FreeNode, Node, Input, Output} from "@/gates.js";
 
 export const store = reactive({
     gates: [
@@ -14,6 +14,7 @@ export const store = reactive({
             new Node(0, 0, false),
             new Node(0, 0, true),
         ]),
+        new Output(500, 100)
     ],
     connections: [
         new Connection([
@@ -32,5 +33,9 @@ export const store = reactive({
             {gate: 2, dest: 2},
             {gate: 1, dest: 'b'},
         ]),
+        new Connection([
+            {gate: 1, dest: 'out'},
+            {gate: 4, dest: 'a'},
+        ])
     ]
 })

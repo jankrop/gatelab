@@ -5,6 +5,7 @@
     import And from "@/components/gates/And.vue";
     import Not from "@/components/gates/Not.vue";
     import Input from "@/components/gates/Input.vue";
+    import Output from "@/components/gates/Output.vue";
 
     const props = defineProps({
         id: Number,
@@ -17,7 +18,7 @@
     const gate = computed({
         get: () => store.gates[props.id],
         set: val => {
-            if (val.name === 'input') return;
+            if (val.name === 'input' || val.name === 'output') return;
             val.nodes.out.state = val.name === 'not' ?
                 val.operation(val.nodes.a.state) :
                 val.operation(val.nodes.a.state, val.nodes.b.state)
@@ -78,7 +79,8 @@
         <And v-if="gate.name === 'and'" :x="x" :y="y" />
         <Nand v-if="gate.name === 'nand'" :x="x" :y="y" />
         <Not v-if="gate.name === 'not'" :x="x" :y="y" />
-        <Input v-if="gate.name === 'input'" :x="x" :y="y" />
+        <Input v-if="gate.name === 'input'" :x="x" :y="y" :state="gate.nodes.out.state" />
+        <Output v-if="gate.name === 'output'" :x="x" :y="y" :state="gate.nodes.a.state" />
     </g>
     <circle
         v-for="(node, key) in gate.nodes"

@@ -76,10 +76,19 @@ export class Input extends Gate {
     name = 'input'
     constructor(x, y) {
         super(x, y);
-        this.state = false;
         this.operation = () => this.state;
         this.nodes = {
             out: new Node(30, 15, true)
+        }
+    }
+}
+export class Output extends Gate {
+    name = 'output'
+    operation = _ => null
+    constructor(x, y) {
+        super(x, y);
+        this.nodes = {
+            a: new Node(0, 15, false),
         }
     }
 }
