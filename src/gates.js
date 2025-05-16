@@ -1,8 +1,9 @@
 export class Node {
-    constructor(xOffset, yOffset) {
+    constructor(xOffset, yOffset, isOutput) {
         this.state = false
         this.xOffset = xOffset
         this.yOffset = yOffset
+        this.isOutput = isOutput
     }
 }
 
@@ -21,9 +22,9 @@ class DoubleInputGate extends Gate {
     constructor(x, y) {
         super(x, y);
         this.nodes = {
-            a: new Node(0, 20),
-            b: new Node(0, 60),
-            out: new Node(100, 40),
+            a: new Node(0, 20, false),
+            b: new Node(0, 60, false),
+            out: new Node(100, 40, true),
         }
     }
 }
@@ -54,8 +55,8 @@ export class Not extends Gate {
     constructor(x, y) {
         super(x, y);
         this.nodes = {
-            a: new Node(0, 20),
-            out: new Node(68, 20),
+            a: new Node(0, 20, false),
+            out: new Node(68, 20, true),
         }
     }
 }
@@ -78,7 +79,7 @@ export class Input extends Gate {
         this.state = false;
         this.operation = () => this.state;
         this.nodes = {
-            out: new Node(30, 15)
+            out: new Node(30, 15, true)
         }
     }
 }
@@ -88,5 +89,13 @@ export class Connection {
         this.nodes = nodes
         this.state = false
         this.direction = -1
+    }
+}
+
+export class FreeNode {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.nodes = {}
     }
 }

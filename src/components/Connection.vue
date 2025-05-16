@@ -9,8 +9,8 @@ const props = defineProps({
 const connection = computed({
     get: () => store.connections[props.id],
     set: val => {
-        val.direction = 1 -val.nodes.findIndex(
-            node => node.dest === 'out'
+        val.direction = 1 - val.nodes.findIndex(
+            node => store.gates[node.gate].nodes[node.dest].isOutput
         )
         if (val.direction === -1) {
             val.state = 0
