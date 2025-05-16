@@ -37,5 +37,6 @@ export const store = reactive({
             {gate: 1, dest: 'out'},
             {gate: 4, dest: 'a'},
         ])
-    ]
+    ],
+    newConnectionNodes: []
 })

@@ -6,6 +6,7 @@
     import Not from "@/components/gates/Not.vue";
     import Input from "@/components/gates/Input.vue";
     import Output from "@/components/gates/Output.vue";
+    import {Connection} from "@/gates.js";
 
     const props = defineProps({
         id: Number,
@@ -72,6 +73,29 @@
     function getColor(state) {
         return state ? '#2c6' : '#063'
     }
+
+    function isConnectable(node) {
+        if (props.mode !== 'connect') return false
+        const isConnected = store.connections.some(conn => conn.nodes.some(n => n.id === node.id))
+        const isStarting = store.newConnectionNodes.length === 0
+        if (isConnected) {
+            return node.isOutput && isStarting
+        } else {
+            return node.isOutput === isStarting
+        }
+    }
+
+    function createConnection(node, nodeName) {
+        if (props.mode !== 'connect') return false
+        console.log('Updated new connection!')
+        const nodeInfo = {gate: props.id, dest: nodeName}
+        store.newConnectionNodes.push(nodeInfo)
+        if (!node.isOutput) {
+            console.log('Submitted new connection!')
+            store.connections.push(new Connection(store.newConnectionNodes))
+            store.newConnectionNodes = []
+        }
+    }
 </script>
 
 <template>
@@ -83,13 +107,19 @@
         <Output v-if="gate.name === 'output'" :x="x" :y="y" :state="gate.nodes.a.state" />
     </g>
     <circle
-        v-for="(node, key) in gate.nodes"
+        v-for="(node, key) in gate.nodes" :class="{'node-highlight': isConnectable(node)}"
         :fill="getColor(node.state)" r="6" :cx="gate.x + node.xOffset" :cy="gate.y + node.yOffset"
+        @click="createConnection(node, key)"
     />
 </template>
 
 <style scoped>
     g.draggable {
         filter: drop-shadow(4px 4px 2px #0022);
+    }
+    .node-highlight:hover {
+        border-radius: 100%;
+        outline: #8884 solid 4px;
+        cursor: pointer;
     }
 </style>
