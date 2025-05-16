@@ -6,56 +6,56 @@ const props = defineProps({
     id: Number,
 })
 
-const state = computed({
-    get: () => {
-        const states = store.connections[props.id].nodes.map(
+const connection = computed({
+    get: () => store.connections[props.id],
+    set: val => {
+        const states = val.nodes.map(
             node => node.dest === 'out' ? store.gates[node.gate].nodes.out.state : 'undefined'
         )
+        let state;
         if (states[0] === 'undefined' || states[0] === states[1]) {
-            return states[1]
+            state = states[1]
         } else if (states[1] === 'undefined') {
-            return states[0]
+            state = states[0]
         } else {
-            return 'undefined'
+            state = 'undefined'
         }
-    },
-    set: val => {
-        store.connections[props.id].state = val
-        val = val === 'undefined' ? 0 : val
-        store.connections[props.id].nodes.forEach(node => {
+        val.state = state
+        state = state === 'undefined' ? 0 : state
+        val.nodes.forEach(node => {
             if (node.dest === 'out') return
-            store.gates[node.gate].nodes[node.dest].state = val
+            store.gates[node.gate].nodes[node.dest].state = state
         })
     }
 })
 
 const x1 = computed(() => {
-    const node = store.connections[props.id].nodes[0]
+    const node = connection.value.nodes[0]
     return store.gates[node.gate].x + store.gates[node.gate].nodes[node.dest].xOffset
 })
 const y1 = computed(() => {
-    const node = store.connections[props.id].nodes[0]
+    const node = connection.value.nodes[0]
     return store.gates[node.gate].y + store.gates[node.gate].nodes[node.dest].yOffset
 })
 const x2 = computed(() => {
-    const node = store.connections[props.id].nodes[1]
+    const node = connection.value.nodes[1]
     return store.gates[node.gate].x + store.gates[node.gate].nodes[node.dest].xOffset
 })
 const y2 = computed(() => {
-    const node = store.connections[props.id].nodes[1]
+    const node = connection.value.nodes[1]
     return store.gates[node.gate].y + store.gates[node.gate].nodes[node.dest].yOffset
 })
 
 
 const color = computed(() => {
-    return state.value === 'undefined' ? '#446' : (state.value ? '#2c6' : '#063')
+    return connection.value.state === 'undefined' ? '#446' : (connection.value.state ? '#2c6' : '#063')
 })
 
 onMounted(() => {
-    state.value = state.value
+    connection.value = connection.value
 })
 
-watch(store, async () => {state.value = state.value})
+watch(store, async () => {connection.value = connection.value})
 </script>
 
 <template>
