@@ -20,11 +20,10 @@ function handleMouseMove(ev) {
 }
 
 function getNodeCoords(nodeInfo) {
-    const result = {
+    return {
         x: store.gates[nodeInfo.gate].x + store.gates[nodeInfo.gate].nodes[nodeInfo.dest].xOffset,
         y: store.gates[nodeInfo.gate].y + store.gates[nodeInfo.gate].nodes[nodeInfo.dest].yOffset,
     }
-    return result
 }
 
 onMounted(() => {
