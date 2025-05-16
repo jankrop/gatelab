@@ -9,24 +9,6 @@ const props = defineProps({
 const connection = computed({
     get: () => store.connections[props.id],
     set: val => {
-        // const states = val.nodes.map(
-        //     node => node.dest === 'out' ? store.gates[node.gate].nodes.out.state : 'undefined'
-        // )
-        // let state;
-        // if (states[0] === 'undefined' || states[0] === states[1]) {
-        //     state = states[1]
-        // } else if (states[1] === 'undefined') {
-        //     state = states[0]
-        // } else {
-        //     state = 'undefined'
-        // }
-        // val.state = state
-        // state = state === 'undefined' ? 0 : state
-        // val.nodes.forEach(node => {
-        //     if (node.dest === 'out') return
-        //     store.gates[node.gate].nodes[node.dest].state = state
-        // })
-
         val.direction = 1 -val.nodes.findIndex(
             node => node.dest === 'out'
         )
