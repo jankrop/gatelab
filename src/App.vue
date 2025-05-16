@@ -1,5 +1,5 @@
 <script setup>
-import And from "@/components/gates/And.vue";
+import Gate from "@/components/Gate.vue";
 
 import { store } from "@/store.js";
 import Connection from "@/components/Connection.vue";
@@ -11,7 +11,7 @@ import Connection from "@/components/Connection.vue";
             <Connection :id="id" />
         </g>
         <g v-for="(gate, id) in store.gates">
-            <And :id="id" />
+            <Gate :id="id" />
         </g>
     </svg>
     <div class="toolbar">
