@@ -93,9 +93,11 @@ export class Connection {
 }
 
 export class FreeNode {
-    constructor(x, y) {
+    name = 'freenode'
+    constructor(x, y, nodes) {
         this.x = x;
         this.y = y;
-        this.nodes = {}
+        this.nodes = nodes
+        this.state = false
     }
 }

@@ -3,6 +3,7 @@ import Gate from "@/components/Gate.vue";
 
 import { store } from "@/store.js";
 import Connection from "@/components/Connection.vue";
+import FreeNode from "@/components/FreeNode.vue";
 </script>
 
 <template>
@@ -11,7 +12,8 @@ import Connection from "@/components/Connection.vue";
             <Connection :id="id" />
         </g>
         <g v-for="(gate, id) in store.gates">
-            <Gate :id="id" />
+            <FreeNode :id="id" v-if="gate.name === 'freenode'" />
+            <Gate :id="id" v-else />
         </g>
     </svg>
     <div class="toolbar">
