@@ -8,6 +8,7 @@
 
     const props = defineProps({
         id: Number,
+        mode: String,
     })
     const draggable = ref(false);
     const dragOffsetX = ref(0);
@@ -34,11 +35,16 @@
     })
 
     function handleMouseDown(ev) {
-        draggable.value = true;
-        dragOffsetX.value = ev.clientX - gate.value.x;
-        dragOffsetY.value = ev.clientY - gate.value.y;
-        document.addEventListener('mousemove', handleMouseMove)
-        document.addEventListener('mouseup', handleMouseUp)
+        if (props.mode === 'run' && gate.value.name === 'input') {
+            console.log('Clicked on input')
+            gate.value.nodes.out.state = !gate.value.nodes.out.state;
+        } else if (props.mode === 'edit') {
+            draggable.value = true;
+            dragOffsetX.value = ev.clientX - gate.value.x;
+            dragOffsetY.value = ev.clientY - gate.value.y;
+            document.addEventListener('mousemove', handleMouseMove)
+            document.addEventListener('mouseup', handleMouseUp)
+        }
     }
 
     function handleMouseMove(ev) {
@@ -77,7 +83,7 @@
     <circle
         v-for="(node, key) in gate.nodes"
         :fill="getColor(node.state)" r="6" :cx="gate.x + node.xOffset" :cy="gate.y + node.yOffset"
-        @click="gate.nodes[key].state = !gate.nodes[key].state"/>
+    />
 </template>
 
 <style scoped>

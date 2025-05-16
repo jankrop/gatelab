@@ -4,6 +4,7 @@ import {computed, onMounted, ref, watch} from "vue";
 
     const props = defineProps({
         id: Number,
+        mode: String,
     })
     const draggable = ref(false);
     const dragOffsetX = ref(0);
@@ -22,6 +23,7 @@ import {computed, onMounted, ref, watch} from "vue";
     })
 
     function handleMouseDown(ev) {
+        if (props.mode !== 'edit') return
         draggable.value = true;
         dragOffsetX.value = ev.clientX - freeNode.value.x;
         dragOffsetY.value = ev.clientY - freeNode.value.y;
