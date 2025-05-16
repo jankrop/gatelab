@@ -85,7 +85,8 @@ export class Input extends Gate {
 
 export class Connection {
     constructor(nodes) {
-        this.nodes = nodes;
-        this.state = false;
+        this.nodes = nodes
+        this.state = false
+        this.direction = -1
     }
 }
