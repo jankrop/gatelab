@@ -1,6 +1,7 @@
 <script setup>
 import {computed, onMounted, ref, watch} from "vue";
     import {store} from "@/store.js";
+    import {Node} from "@/gates.js";
 
     const props = defineProps({
         id: Number,
@@ -23,12 +24,22 @@ import {computed, onMounted, ref, watch} from "vue";
     })
 
     function handleMouseDown(ev) {
-        if (props.mode !== 'edit') return
-        draggable.value = true;
-        dragOffsetX.value = ev.clientX - freeNode.value.x;
-        dragOffsetY.value = ev.clientY - freeNode.value.y;
-        document.addEventListener('mousemove', handleMouseMove)
-        document.addEventListener('mouseup', handleMouseUp)
+        if (isConnectable()) {
+            console.log('Updated new connection!');
+            freeNode.value.nodes.push(
+                new Node(0, 0, true)
+            )
+            store.newConnectionNodes.push({
+                gate: props.id,
+                dest: freeNode.value.nodes.length - 1
+            })
+        } else if (props.mode !== 'edit') {
+            draggable.value = true;
+            dragOffsetX.value = ev.clientX - freeNode.value.x;
+            dragOffsetY.value = ev.clientY - freeNode.value.y;
+            document.addEventListener('mousemove', handleMouseMove)
+            document.addEventListener('mouseup', handleMouseUp)
+        }
     }
 
     function handleMouseMove(ev) {
@@ -53,8 +64,9 @@ import {computed, onMounted, ref, watch} from "vue";
         return freeNode.value.state ? '#2c6' : '#063'
     }
 
-    function createConnection() {
-
+    function isConnectable() {
+        if (props.mode !== 'connect') return false
+        return store.newConnectionNodes.length === 0
     }
 </script>
 
@@ -66,7 +78,7 @@ import {computed, onMounted, ref, watch} from "vue";
             :cx="freeNode.x" :cy="freeNode.y"
             @click="createConnection()"
         />
-        <circle class="drag-circle" v-if="mode === 'edit'"
+        <circle class="drag-circle" v-if="mode === 'edit' || isConnectable()"
                 :class="{filled: freeNode.nodes.length < 3}"
                 r="10" :cx="freeNode.x" :cy="freeNode.y" @mousedown="handleMouseDown"
         />
