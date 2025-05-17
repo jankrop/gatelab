@@ -27,9 +27,11 @@ function getNodeCoords(nodeInfo) {
 }
 
 onMounted(() => {
-    const box = workspace.value.getBoundingClientRect()
-    workspaceX.value = box.left
-    workspaceY.value = box.top
+    document.onclick = _ => {
+        const box = workspace.value.getBoundingClientRect()
+        workspaceX.value = box.left
+        workspaceY.value = box.top
+    }
 
     document.body.onkeyup = ev => {
         if (ev.key !== 'Escape') return
@@ -39,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <svg class="workspace" ref="workspace" @mousemove="handleMouseMove">
+    <svg class="workspace" ref="workspace" @mousemove="handleMouseMove" @click="handleClick">
         <g v-for="(connection, id) in store.connections">
             <Connection :id="id" />
         </g>
