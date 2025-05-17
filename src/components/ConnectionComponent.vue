@@ -4,6 +4,7 @@ import { store } from "@/store.js";
 
 const props = defineProps({
     id: Number,
+    mode: String,
 })
 
 const connection = computed({
@@ -46,6 +47,11 @@ const color = computed(() => {
     return connection.value.state === 'undefined' ? '#446' : (connection.value.state ? '#2c6' : '#063')
 })
 
+function handleClick() {
+    if (props.mode !== 'delete') return
+    store.connections.splice(props.id, 1)
+}
+
 onMounted(() => {
     connection.value = connection.value
 })
@@ -54,5 +60,9 @@ watch(store, async () => {connection.value = connection.value})
 </script>
 
 <template>
-    <line :x1="x1" :y1="y1" :x2="x2" :y2="y2" :stroke="color" stroke-width="4" />
+    <line
+        :x1="x1" :y1="y1" :x2="x2" :y2="y2"
+        :stroke="color" stroke-width="4"
+        @click="handleClick"
+    />
 </template>

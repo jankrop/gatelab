@@ -62,10 +62,11 @@ onMounted(() => {
     <svg class="workspace" ref="workspace" @mousemove="handleMouseMove">
         <rect x="0" y="0" width="1800" height="800" fill="white" @click="handleClick" />
         <g v-for="(connection, id) in store.connections">
-            <ConnectionComponent :id="id" />
+            <ConnectionComponent :id="id" :mode="mode" />
         </g>
         <g v-for="(gate, id) in store.gates">
-            <FreeNodeComponent :id="id" :mode="mode" v-if="gate.name === 'freenode'" />
+            <div v-if="gate === null"></div>
+            <FreeNodeComponent :id="id" :mode="mode" v-else-if="gate.name === 'freenode'" />
             <GateComponent :id="id" :mode="mode" v-else />
         </g>
         <line v-if="store.newConnectionNodes.length > 0"
@@ -92,6 +93,7 @@ onMounted(() => {
         <button @click="mode = 'run'">Run mode</button>
         <button @click="mode = 'edit'">Edit mode</button>
         <button @click="mode = 'connect'">Connect mode</button>
+        <button @click="mode = 'delete'">Delete mode</button>
         &nbsp;
         <span>Current mode: <b>{{ mode }}</b></span>
     </div>

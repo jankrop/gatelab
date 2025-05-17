@@ -37,7 +37,19 @@
     })
 
     function handleMouseDown(ev) {
-        if (props.mode === 'run' && gate.value.name === 'input') {
+        if (props.mode === 'delete') {
+            const newConnectionStore = store.connections;
+            for (let [i, connection] of store.connections.entries()) {
+                console.log(i, connection.nodes[0].gate, connection.nodes[1].gate, props.id)
+                if (connection.nodes[0].gate === props.id || connection.nodes[1].gate === props.id) {
+                    console.log(store.connections, i)
+                    newConnectionStore[i] = 0
+                    console.log(store.connections)
+                }
+            }
+            store.connections = newConnectionStore.filter(c => c !== 0)
+            store.gates[props.id] = null
+        } if (props.mode === 'run' && gate.value.name === 'input') {
             console.log('Clicked on input')
             gate.value.nodes.out.state = !gate.value.nodes.out.state;
         } else if (props.mode === 'edit') {

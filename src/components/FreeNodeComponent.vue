@@ -14,6 +14,10 @@ import {computed, onMounted, ref, watch} from "vue";
     const freeNode = computed({
         get: () => store.gates[props.id],
         set: val => {
+            if (!store.connections.some(conn => conn.nodes.some(n => n.gate === props.id))) {
+                store.gates[props.id] = null
+                return
+            }
             val.state = val.nodes.find(node => !node.isOutput).state
             for (let i in val.nodes) {
                 if (!val.nodes[i].isOutput) continue
@@ -24,7 +28,20 @@ import {computed, onMounted, ref, watch} from "vue";
     })
 
     function handleMouseDown(ev) {
-        if (isConnectable()) {
+        console.log('Clicked on free node')
+        if (props.mode === 'delete') {
+            const newConnectionStore = store.connections;
+            for (let [i, connection] of store.connections.entries()) {
+                console.log(i, connection.nodes[0].gate, connection.nodes[1].gate, props.id)
+                if (connection.nodes[0].gate === props.id || connection.nodes[1].gate === props.id) {
+                    console.log(store.connections, i)
+                    newConnectionStore[i] = 0
+                    console.log(store.connections)
+                }
+            }
+            store.connections = newConnectionStore.filter(c => c !== 0)
+            store.gates[props.id] = null
+        } else if (isConnectable()) {
             console.log('Updated new connection!');
             freeNode.value.nodes.push(
                 new Node(0, 0, true)
@@ -76,9 +93,8 @@ import {computed, onMounted, ref, watch} from "vue";
             :fill="getColor()"
             :r="freeNode.nodes.length < 3 ? 2 : 6"
             :cx="freeNode.x" :cy="freeNode.y"
-            @click="createConnection()"
         />
-        <circle class="drag-circle" v-if="mode === 'edit' || isConnectable()"
+        <circle class="drag-circle" v-if="mode === 'edit' || mode === 'delete' || isConnectable()"
                 :class="{filled: freeNode.nodes.length < 3}"
                 r="10" :cx="freeNode.x" :cy="freeNode.y" @mousedown="handleMouseDown"
         />
