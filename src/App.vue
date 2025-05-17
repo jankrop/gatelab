@@ -94,7 +94,7 @@ onMounted(() => {
         <button @click="mode = 'edit'">Edit</button>
         <button @click="mode = 'connect'">Connect</button>
         <button @click="mode = 'delete'">Delete</button>
-        &nbsp;
+        <br>
         <span>Current mode: <b>{{ mode }}</b></span>
     </div>
 </template>
@@ -118,8 +118,12 @@ onMounted(() => {
         border-radius: 5px;
         cursor: pointer;
         font-family: inherit;
+        font-size: inherit;
     }
     button:hover {
         background-color: #556;
+    }
+    .toolbar {
+      text-align: center;
     }
 </style>

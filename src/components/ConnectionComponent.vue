@@ -56,6 +56,12 @@ onMounted(() => {
     connection.value = connection.value
 })
 
+for (let node of connection.value.nodes) {
+    watch(store.gates[node.gate], async () => {
+        connection.value = connection.value
+    })
+}
+
 watch(store, async () => {connection.value = connection.value})
 </script>
 

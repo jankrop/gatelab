@@ -75,7 +75,26 @@ import {computed, onMounted, ref, watch} from "vue";
         freeNode.value = freeNode.value;
     })
 
-    watch(store, async () => freeNode.value = freeNode.value);
+    const watches = []
+
+    function updateWatches() {
+        for (const unwatch of watches) {
+            unwatch()
+        }
+        for (let [i, conn] of store.connections.entries()) {
+            if (conn.nodes[0].gate === props.id || conn.nodes[1].gate === props.id) {
+                watches.push(
+                    watch(store.connections[i], async () => {
+                        freeNode.value = freeNode.value
+                    })
+                )
+            }
+        }
+    }
+
+    updateWatches()
+
+    watch(store.connections, updateWatches)
 
     function getColor() {
         return freeNode.value.state ? '#2c6' : '#063'
