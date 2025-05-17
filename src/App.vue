@@ -1,10 +1,10 @@
 <script setup>
-import Gate from "@/components/Gate.vue";
+import GateComponent from "@/components/GateComponent.vue";
 
 import { store } from "@/store.js";
-import Connection from "@/components/Connection.vue";
-import FreeNode from "@/components/FreeNode.vue";
-import {And, Not, Nand, Input, Output} from "@/gates.js";
+import ConnectionComponent from "@/components/ConnectionComponent.vue";
+import FreeNodeComponent from "@/components/FreeNodeComponent.vue";
+import {And, Not, Nand, Input, Output, FreeNode, Connection, Node} from "@/gates.js";
 import {onMounted, ref, useTemplateRef} from "vue";
 
 const mode = ref('edit');
@@ -26,6 +26,24 @@ function getNodeCoords(nodeInfo) {
     }
 }
 
+function handleClick(ev) {
+    if (mode.value !== 'connect' || store.newConnectionNodes.length === 0) return
+
+    store.gates.push(
+        new FreeNode(
+            ev.clientX - workspaceX.value,
+            ev.clientY - workspaceY.value,
+            [
+                new Node(0, 0, false),
+                new Node(0, 0, true),
+            ]
+        ));
+
+    store.newConnectionNodes.push({gate: store.gates.length - 1, dest: 0})
+    store.connections.push(new Connection(store.newConnectionNodes))
+    store.newConnectionNodes = [{gate: store.gates.length - 1, dest: 1}]
+}
+
 onMounted(() => {
     document.onclick = _ => {
         const box = workspace.value.getBoundingClientRect()
@@ -41,13 +59,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <svg class="workspace" ref="workspace" @mousemove="handleMouseMove" @click="handleClick">
+    <svg class="workspace" ref="workspace" @mousemove="handleMouseMove">
+        <rect x="0" y="0" width="1800" height="800" fill="white" @click="handleClick" />
         <g v-for="(connection, id) in store.connections">
-            <Connection :id="id" />
+            <ConnectionComponent :id="id" />
         </g>
         <g v-for="(gate, id) in store.gates">
-            <FreeNode :id="id" :mode="mode" v-if="gate.name === 'freenode'" />
-            <Gate :id="id" :mode="mode" v-else />
+            <FreeNodeComponent :id="id" :mode="mode" v-if="gate.name === 'freenode'" />
+            <GateComponent :id="id" :mode="mode" v-else />
         </g>
         <line v-if="store.newConnectionNodes.length > 0"
             :x1="getNodeCoords(store.newConnectionNodes[0]).x"

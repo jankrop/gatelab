@@ -62,12 +62,12 @@ import {computed, onMounted, ref, watch} from "vue";
     <g>
         <circle
             :fill="getColor()"
-            :r="freeNode.nodes.length > 0 && freeNode.nodes.length < 3 ? 2 : 6"
+            :r="freeNode.nodes.length < 3 ? 2 : 6"
             :cx="freeNode.x" :cy="freeNode.y"
             @click="createConnection()"
         />
         <circle class="drag-circle" v-if="mode === 'edit'"
-                :class="{filled: freeNode.nodes.length > 0 && freeNode.nodes.length < 3}"
+                :class="{filled: freeNode.nodes.length < 3}"
                 r="10" :cx="freeNode.x" :cy="freeNode.y" @mousedown="handleMouseDown"
         />
     </g>
