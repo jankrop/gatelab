@@ -13,7 +13,6 @@ defineProps({
 
 <style scoped>
 text {
-    font-family: monospace;
     font-size: 24px;
     font-weight: bold;
     user-select: none;

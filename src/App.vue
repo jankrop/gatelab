@@ -90,10 +90,10 @@ onMounted(() => {
         <button @click="store.gates.push(new Input(20, 20))">Input</button>
         <button @click="store.gates.push(new Output(20, 20))">Output</button>
         &emsp;
-        <button @click="mode = 'run'">Run mode</button>
-        <button @click="mode = 'edit'">Edit mode</button>
-        <button @click="mode = 'connect'">Connect mode</button>
-        <button @click="mode = 'delete'">Delete mode</button>
+        <button @click="mode = 'run'">Run</button>
+        <button @click="mode = 'edit'">Edit</button>
+        <button @click="mode = 'connect'">Connect</button>
+        <button @click="mode = 'delete'">Delete</button>
         &nbsp;
         <span>Current mode: <b>{{ mode }}</b></span>
     </div>
@@ -104,8 +104,22 @@ onMounted(() => {
         background-color: white;
         width: 1800px;
         height: 800px;
+        border-radius: 10px;
     }
     .phantom-connection {
         pointer-events: none;
+    }
+    button {
+        background-color: #445;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        margin: 0 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-family: inherit;
+    }
+    button:hover {
+        background-color: #556;
     }
 </style>
