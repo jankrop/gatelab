@@ -52,6 +52,10 @@ import {computed, onMounted, ref, watch} from "vue";
     function getColor() {
         return freeNode.value.state ? '#2c6' : '#063'
     }
+
+    function createConnection() {
+
+    }
 </script>
 
 <template>
@@ -60,8 +64,9 @@ import {computed, onMounted, ref, watch} from "vue";
             :fill="getColor()"
             :r="freeNode.nodes.length > 0 && freeNode.nodes.length < 3 ? 2 : 6"
             :cx="freeNode.x" :cy="freeNode.y"
+            @click="createConnection()"
         />
-        <circle class="drag-circle"
+        <circle class="drag-circle" v-if="mode === 'edit'"
                 :class="{filled: freeNode.nodes.length > 0 && freeNode.nodes.length < 3}"
                 r="10" :cx="freeNode.x" :cy="freeNode.y" @mousedown="handleMouseDown"
         />

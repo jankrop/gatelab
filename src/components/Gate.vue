@@ -74,9 +74,13 @@
         return state ? '#2c6' : '#063'
     }
 
-    function isConnectable(node) {
+    function isConnectable(node, nodeName) {
         if (props.mode !== 'connect') return false
-        const isConnected = store.connections.some(conn => conn.nodes.some(n => n.id === node.id))
+        const isConnected = store.connections.some(
+            conn => conn.nodes.some(
+                n => n.gate === props.id && n.dest == nodeName
+            )
+        )
         const isStarting = store.newConnectionNodes.length === 0
         if (isConnected) {
             return node.isOutput && isStarting
@@ -107,7 +111,7 @@
         <Output v-if="gate.name === 'output'" :x="x" :y="y" :state="gate.nodes.a.state" />
     </g>
     <circle
-        v-for="(node, key) in gate.nodes" :class="{'node-highlight': isConnectable(node)}"
+        v-for="(node, key) in gate.nodes" :class="{'node-highlight': isConnectable(node, key)}"
         :fill="getColor(node.state)" r="6" :cx="gate.x + node.xOffset" :cy="gate.y + node.yOffset"
         @click="createConnection(node, key)"
     />
