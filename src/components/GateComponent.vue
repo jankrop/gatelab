@@ -77,26 +77,30 @@
         gate.value = gate.value;
     })
 
-    const watches = []
+    // const watches = []
+    //
+    // function updateWatches() {
+    //     for (const unwatch of watches) {
+    //         unwatch()
+    //     }
+    //     for (let [i, conn] of store.connections.entries()) {
+    //         if (conn.nodes[0].gate === props.id || conn.nodes[1].gate === props.id) {
+    //             watches.push(
+    //                 watch(store.connections[i], async () => {
+    //                     gate.value = gate.value
+    //                 })
+    //             )
+    //         }
+    //     }
+    // }
+    //
+    // updateWatches()
+    //
+    // watch(store.connections, updateWatches)
 
-    function updateWatches() {
-        for (const unwatch of watches) {
-            unwatch()
-        }
-        for (let [i, conn] of store.connections.entries()) {
-            if (conn.nodes[0].gate === props.id || conn.nodes[1].gate === props.id) {
-                watches.push(
-                    watch(store.connections[i], async () => {
-                        gate.value = gate.value
-                    })
-                )
-            }
-        }
-    }
-
-    updateWatches()
-
-    watch(store.connections, updateWatches)
+    watch(store.connections, async () => {
+        gate.value = gate.value;
+    })
 
     function getColor(state) {
         return state ? '#2c6' : '#063'
