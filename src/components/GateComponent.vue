@@ -98,7 +98,7 @@
     //
     // watch(store.connections, updateWatches)
 
-    watch(store.connections, async () => {
+    watch(store.gates[props.id], async () => {
         gate.value = gate.value;
     })
 

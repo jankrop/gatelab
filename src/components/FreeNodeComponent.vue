@@ -96,7 +96,7 @@ import {computed, onMounted, ref, watch} from "vue";
     //
     // watch(store.connections, updateWatches)
 
-    watch(store.connections, async () => {
+    watch(store.gates[props.id], async () => {
         freeNode.value = freeNode.value;
     })
 
