@@ -49,6 +49,10 @@ const color = computed(() => {
 
 function handleClick() {
     if (props.mode !== 'delete') return
+    for (let node of store.connections[props.id].nodes) {
+        if (store.gates[node.gate].nodes[node.dest].isOutput) continue
+        store.gates[node.gate].nodes[node.dest].state = false
+    }
     store.connections.splice(props.id, 1)
 }
 
