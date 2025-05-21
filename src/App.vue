@@ -80,50 +80,65 @@ onMounted(() => {
         />
     </svg>
     <div class="toolbar">
-        <button @click="store.gates.push(new Not(20, 20))">NOT</button>
-        <button @click="store.gates.push(new And(20, 20))">AND</button>
-        <button>OR</button>
-        <button>XOR</button>
-        <button @click="store.gates.push(new Nand(20, 20))">NAND</button>
-        <button>NOR</button>
-        &ensp;
-        <button @click="store.gates.push(new Input(20, 20))">Input</button>
-        <button @click="store.gates.push(new Output(20, 20))">Output</button>
-        &emsp;
-        <button @click="mode = 'run'">Run</button>
-        <button @click="mode = 'edit'">Edit</button>
-        <button @click="mode = 'connect'">Connect</button>
-        <button @click="mode = 'delete'">Delete</button>
-        <br>
-        <span>Current mode: <b>{{ mode }}</b></span>
+        <button @click="store.gates.push(new Not(20, 20))" :disabled="mode !== 'edit'">NOT</button>
+        <button @click="store.gates.push(new And(20, 20))" :disabled="mode !== 'edit'">AND</button>
+        <button :disabled="mode !== 'edit'">OR</button>
+        <button :disabled="mode !== 'edit'">XOR</button>
+        <button @click="store.gates.push(new Nand(20, 20))" :disabled="mode !== 'edit'">NAND</button>
+        <button :disabled="mode !== 'edit'">NOR</button>
+        <div class="separator"></div>
+        <button @click="store.gates.push(new Input(20, 20))"  :disabled="mode !== 'edit'">Input</button>
+        <button @click="store.gates.push(new Output(20, 20))" :disabled="mode !== 'edit'">Output</button>
+        <div class="separator"></div>
+        <button @click="mode = 'run'" :class="{'current-mode': mode === 'run'}">run</button>
+        <button @click="mode = 'edit'" :class="{'current-mode': mode === 'edit'}">edit</button>
+        <button @click="mode = 'connect'" :class="{'current-mode': mode === 'connect'}">connect</button>
+        <button @click="mode = 'delete'" :class="{'current-mode': mode === 'delete'}">delete</button>
     </div>
 </template>
 
 <style scoped>
     .workspace {
         background-color: white;
-        width: 1800px;
-        height: 800px;
-        border-radius: 10px;
+        width: 100vw;
+        height: 100vh;
     }
     .phantom-connection {
         pointer-events: none;
     }
     button {
-        background-color: #445;
-        color: white;
+        background-color: transparent;
         border: none;
         padding: 5px 10px;
-        margin: 0 5px;
-        border-radius: 5px;
-        cursor: pointer;
         font-family: inherit;
         font-size: inherit;
     }
-    button:hover {
-        background-color: #556;
+    button:first-child {
+        border-top-left-radius: 5px;
+    }
+    button:last-child {
+        border-top-right-radius: 5px;
+    }
+    button:not(:disabled):hover {
+        cursor: pointer;
+        background-color: #0001;
+    }
+    button.current-mode {
+        background-color: #0002;
+    }
+    button.current-mode:hover {
+        background-color: #0003;
     }
     .toolbar {
-      text-align: center;
+        position: absolute;
+        bottom: 0;
+        border: 1px solid #aaa;
+        border-bottom: none;
+        border-radius: 5px 5px 0 0;
+        display: flex;
+    }
+    .toolbar .separator {
+        width: 1px;
+        background-color: #aaa;
     }
 </style>
