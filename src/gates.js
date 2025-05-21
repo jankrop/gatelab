@@ -49,7 +49,7 @@ export class Not extends Gate {
         super(x, y);
         this.nodes = {
             a: new Node(0, 20, false),
-            out: new Node(68, 20, true),
+            out: new Node(60, 20, true),
         }
     }
 }
