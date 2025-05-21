@@ -23,4 +23,6 @@ jobs:
           npm run build
 
       - name: Deploy
-        run: npm run deploy
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh-pages -d dist -r https://x-access-token:${GH_TOKEN}@github.com/jankrop/gatelab.git
