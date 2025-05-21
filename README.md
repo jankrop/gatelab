@@ -1,29 +1,30 @@
-# logicgates
+# gatelab
+a logic gate simulator written in Vue
 
-This template should help get you started developing with Vue 3 in Vite.
+## Features
+- add, remove and connect logic gates
+- add inputs and outputs to control your circuit
+- snapping mode enables more precise editing
 
-## Recommended IDE Setup
+### Planned features
+- saving your progress to a file or browser storage
+- more control over gate placement
+- animation of power flowing through cables
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+## Project setup
+```shell
 npm install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
+### Development server
+```shell
 npm run dev
 ```
 
-### Compile and Minify for Production
-
-```sh
+### Production
+```shell
 npm run build
 ```
+
+## License
+This project is licensed under the [GNU Affero General Public License](LICENSE.md).
