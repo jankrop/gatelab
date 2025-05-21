@@ -125,6 +125,7 @@ onMounted(() => {
         position: absolute;
         top: 10px;
         right: 10px;
+        user-select: none;
     }
     .logo h1 {
         font-size: 30px;
