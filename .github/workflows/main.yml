@@ -1,0 +1,26 @@
+name: Deploy Vue app to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure Git
+        run: |
+          git config --global user.email "jan.kropiwnicki@infotech.edu.pl"
+          git config --global user.name "Jan Kropiwnicki"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install and Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy
+        run: npm run deploy
