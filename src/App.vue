@@ -13,10 +13,16 @@ const cursorY = ref(0);
 const workspace = useTemplateRef('workspace');
 const workspaceX = ref(0);
 const workspaceY = ref(0);
+const snapping = ref(true);
 
 function handleMouseMove(ev) {
-    cursorX.value = ev.clientX
-    cursorY.value = ev.clientY
+    if (snapping.value) {
+        cursorX.value = Math.round(ev.clientX / 20) * 20
+        cursorY.value = Math.round(ev.clientY / 20) * 20
+    } else {
+        cursorX.value = ev.clientX
+        cursorY.value = ev.clientY
+    }
 }
 
 function getNodeCoords(nodeInfo) {
@@ -31,8 +37,8 @@ function handleClick(ev) {
 
     store.gates.push(
         new FreeNode(
-            ev.clientX - workspaceX.value,
-            ev.clientY - workspaceY.value,
+            cursorX.value,
+            cursorY.value,
             [
                 new Node(0, 0, false),
                 new Node(0, 0, true),
@@ -60,20 +66,22 @@ onMounted(() => {
 
 <template>
     <svg class="workspace" ref="workspace" @mousemove="handleMouseMove">
-        <rect x="0" y="0" width="1800" height="800" fill="white" @click="handleClick" />
+        <line :x1="i*20" y1="0" :x2="i*20" y2="1080" stroke="#ccc" stroke-width="0.5" v-for="i in Math.ceil(1920/20)" v-if="snapping" />
+        <line x1="0" :y1="i*20" x2="1920" :y2="i*20" stroke="#ccc" stroke-width="0.5" v-for="i in Math.ceil(1920/20)" v-if="snapping" />
+        <rect x="0" y="0" width="1920" height="1080" fill="#0000" @click="handleClick" />
         <g v-for="(connection, id) in store.connections">
             <ConnectionComponent :id="id" :mode="mode" />
         </g>
         <g v-for="(gate, id) in store.gates">
             <div v-if="gate === null"></div>
-            <FreeNodeComponent :id="id" :mode="mode" v-else-if="gate.name === 'freenode'" />
-            <GateComponent :id="id" :mode="mode" v-else />
+            <FreeNodeComponent :id="id" :mode="mode" :snapping="snapping" v-else-if="gate.name === 'freenode'" />
+            <GateComponent :id="id" :mode="mode" :snapping="snapping" v-else />
         </g>
         <line v-if="store.newConnectionNodes.length > 0"
             :x1="getNodeCoords(store.newConnectionNodes[0]).x"
             :y1="getNodeCoords(store.newConnectionNodes[0]).y"
-            :x2="cursorX - workspaceX"
-            :y2="cursorY - workspaceY"
+            :x2="cursorX"
+            :y2="cursorY"
             stroke="#2c6a"
             stroke-width="4"
             class="phantom-connection"
@@ -90,10 +98,12 @@ onMounted(() => {
         <button @click="store.gates.push(new Input(20, 20))"  :disabled="mode !== 'edit'">Input</button>
         <button @click="store.gates.push(new Output(20, 20))" :disabled="mode !== 'edit'">Output</button>
         <div class="separator"></div>
-        <button @click="mode = 'run'" :class="{'current-mode': mode === 'run'}">run</button>
-        <button @click="mode = 'edit'" :class="{'current-mode': mode === 'edit'}">edit</button>
-        <button @click="mode = 'connect'" :class="{'current-mode': mode === 'connect'}">connect</button>
-        <button @click="mode = 'delete'" :class="{'current-mode': mode === 'delete'}">delete</button>
+        <button @click="mode = 'run'" :class="{'enabled': mode === 'run'}">run</button>
+        <button @click="mode = 'edit'" :class="{'enabled': mode === 'edit'}">edit</button>
+        <button @click="mode = 'connect'" :class="{'enabled': mode === 'connect'}">connect</button>
+        <button @click="mode = 'delete'" :class="{'enabled': mode === 'delete'}">delete</button>
+        <div class="separator"></div>
+        <button @click="snapping = !snapping" :class="{'enabled': snapping}">snapping</button>
     </div>
 </template>
 
@@ -123,19 +133,21 @@ onMounted(() => {
         cursor: pointer;
         background-color: #0001;
     }
-    button.current-mode {
+    button.enabled {
         background-color: #0002;
     }
-    button.current-mode:hover {
+    button.enabled:hover {
         background-color: #0003;
     }
     .toolbar {
         position: absolute;
         bottom: 0;
+        background-color: white;
         border: 1px solid #aaa;
         border-bottom: none;
         border-radius: 5px 5px 0 0;
         display: flex;
+        filter: drop-shadow(0 0 4px #0002);
     }
     .toolbar .separator {
         width: 1px;

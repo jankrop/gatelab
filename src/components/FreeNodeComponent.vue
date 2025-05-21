@@ -6,6 +6,7 @@ import {computed, onMounted, ref, watch} from "vue";
     const props = defineProps({
         id: Number,
         mode: String,
+        snapping: Boolean,
     })
     const draggable = ref(false);
     const dragOffsetX = ref(0);
@@ -17,6 +18,10 @@ import {computed, onMounted, ref, watch} from "vue";
             if (!store.connections.some(conn => conn.nodes.some(n => n.gate === props.id))) {
                 store.gates[props.id] = null
                 return
+            }
+            if (props.snapping) {
+                val.x = Math.round(val.x / 20) * 20
+                val.y = Math.round(val.y / 20) * 20
             }
             val.state = val.nodes.find(node => !node.isOutput).state
             for (let i in val.nodes) {

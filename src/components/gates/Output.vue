@@ -7,8 +7,8 @@ defineProps({
 </script>
 
 <template>
-    <circle :cx="x + 15" :cy="y + 15" r="15" />
-    <text :x="x + 8" :y="y + 23" fill="#000">{{ state ? '1' : '0' }}</text>
+    <circle :cx="x + 20" :cy="y + 20" r="20" />
+    <text :x="x + 13" :y="y + 29" fill="#000">{{ state ? '1' : '0' }}</text>
 </template>
 
 <style scoped>

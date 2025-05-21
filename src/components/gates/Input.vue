@@ -7,8 +7,8 @@ defineProps({
 </script>
 
 <template>
-    <rect :x="x" :y="y" width="30" height="30" rx="5" ry="5" />
-    <text :x="x + 8" :y="y + 23" fill="#000">{{ state ? '1' : '0' }}</text>
+    <rect :x="x" :y="y" width="40" height="40" rx="5" ry="5" />
+    <text :x="x + 13" :y="y + 29" fill="#000">{{ state ? '1' : '0' }}</text>
 </template>
 
 <style scoped>

@@ -11,6 +11,7 @@
     const props = defineProps({
         id: Number,
         mode: String,
+        snapping: Boolean,
     })
     const draggable = ref(false);
     const dragOffsetX = ref(0);
@@ -19,7 +20,14 @@
     const gate = computed({
         get: () => store.gates[props.id],
         set: val => {
-            if (val.name === 'input' || val.name === 'output') return;
+            if (props.snapping) {
+                val.x = Math.round(val.x / 20) * 20
+                val.y = Math.round(val.y / 20) * 20
+            }
+            if (val.name === 'input' || val.name === 'output') {
+                store.gates[props.id] = val
+                return
+            }
             val.nodes.out.state = val.name === 'not' ?
                 val.operation(val.nodes.a.state) :
                 val.operation(val.nodes.a.state, val.nodes.b.state)
@@ -76,27 +84,6 @@
     onMounted(() => {
         gate.value = gate.value;
     })
-
-    // const watches = []
-    //
-    // function updateWatches() {
-    //     for (const unwatch of watches) {
-    //         unwatch()
-    //     }
-    //     for (let [i, conn] of store.connections.entries()) {
-    //         if (conn.nodes[0].gate === props.id || conn.nodes[1].gate === props.id) {
-    //             watches.push(
-    //                 watch(store.connections[i], async () => {
-    //                     gate.value = gate.value
-    //                 })
-    //             )
-    //         }
-    //     }
-    // }
-    //
-    // updateWatches()
-    //
-    // watch(store.connections, updateWatches)
 
     watch(store.gates[props.id], async () => {
         gate.value = gate.value;

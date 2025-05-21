@@ -29,13 +29,6 @@ class DoubleInputGate extends Gate {
     }
 }
 
-class NegatedDoubleInputGate extends DoubleInputGate {
-    constructor(x, y) {
-        super(x, y);
-        this.nodes.out.xOffset = 108
-    }
-}
-
 export class And extends DoubleInputGate {
     name = 'and'
     operation = (a, b) => a && b;
@@ -60,15 +53,15 @@ export class Not extends Gate {
         }
     }
 }
-export class Nand extends NegatedDoubleInputGate {
+export class Nand extends DoubleInputGate {
     name = 'nand'
     operation = (a, b) => !(a && b);
 }
-export class Nor extends NegatedDoubleInputGate {
+export class Nor extends DoubleInputGate {
     name = 'nor'
     operation = (a, b) => !(a || b);
 }
-export class Xnor extends NegatedDoubleInputGate {
+export class Xnor extends DoubleInputGate {
     name = 'xnor'
     operation = (a, b) => a === b;
 }
@@ -78,7 +71,7 @@ export class Input extends Gate {
         super(x, y);
         this.operation = () => this.state;
         this.nodes = {
-            out: new Node(30, 15, true)
+            out: new Node(40, 20, true)
         }
     }
 }
@@ -88,7 +81,7 @@ export class Output extends Gate {
     constructor(x, y) {
         super(x, y);
         this.nodes = {
-            a: new Node(0, 15, false),
+            a: new Node(0, 20, false),
         }
     }
 }
