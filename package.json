@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "homepage": "git@github.com:jankrop/gatelab.git",
+  "homepage": "https://jankrop.github.io/gatelab",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
