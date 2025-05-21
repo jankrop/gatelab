@@ -87,6 +87,7 @@ onMounted(() => {
             class="phantom-connection"
         />
     </svg>
+    <div class="logo">gatelab</div>
     <div class="toolbar">
         <button @click="store.gates.push(new Not(20, 20))" :disabled="mode !== 'edit'">NOT</button>
         <button @click="store.gates.push(new And(20, 20))" :disabled="mode !== 'edit'">AND</button>
@@ -115,6 +116,17 @@ onMounted(() => {
     }
     .phantom-connection {
         pointer-events: none;
+    }
+    .logo {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+        font-weight: bold;
+        background-image: linear-gradient(-45deg, #dd8800, #00dd88);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
     }
     button {
         background-color: transparent;
