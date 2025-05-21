@@ -1,5 +1,5 @@
 # gatelab
-a logic gate simulator written in Vue
+A logic gate simulator written in Vue
 
 ## Features
 - add, remove and connect logic gates
