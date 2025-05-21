@@ -14,6 +14,7 @@ const workspace = useTemplateRef('workspace');
 const workspaceX = ref(0);
 const workspaceY = ref(0);
 const snapping = ref(true);
+const version = ref(__APP_VERSION__)
 
 function handleMouseMove(ev) {
     if (snapping.value) {
@@ -87,7 +88,10 @@ onMounted(() => {
             class="phantom-connection"
         />
     </svg>
-    <div class="logo">gatelab</div>
+    <div class="logo">
+        <h1>gatelab</h1>
+        <p>v{{ version }}</p>
+    </div>
     <div class="toolbar">
         <button @click="store.gates.push(new Not(20, 20))" :disabled="mode !== 'edit'">NOT</button>
         <button @click="store.gates.push(new And(20, 20))" :disabled="mode !== 'edit'">AND</button>
@@ -121,12 +125,21 @@ onMounted(() => {
         position: absolute;
         top: 10px;
         right: 10px;
+    }
+    .logo h1 {
         font-size: 30px;
         font-weight: bold;
         background-image: linear-gradient(-45deg, #dd8800, #00dd88);
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
+        margin: 0;
+    }
+    .logo p {
+        margin: -8px 0 0;
+        text-align: right;
+        color: #444;
+        font-size: 14px;
     }
     button {
         background-color: transparent;
