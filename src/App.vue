@@ -14,7 +14,7 @@ const workspace = useTemplateRef('workspace');
 const workspaceX = ref(0);
 const workspaceY = ref(0);
 const snapping = ref(true);
-const version = ref(__APP_VERSION__)
+const version = ref(__APP_VERSION__);
 
 function handleMouseMove(ev) {
     if (snapping.value) {
@@ -148,6 +148,7 @@ onMounted(() => {
         padding: 5px 10px;
         font-family: inherit;
         font-size: inherit;
+        color: black;
     }
     button:first-child {
         border-top-left-radius: 5px;
