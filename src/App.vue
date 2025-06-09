@@ -13,6 +13,8 @@ const cursorY = ref(0);
 const workspace = useTemplateRef('workspace');
 const workspaceX = ref(0);
 const workspaceY = ref(0);
+const screenWidth = ref(0);
+const screenHeight = ref(0);
 const snapping = ref(true);
 const version = ref(__APP_VERSION__);
 
@@ -52,6 +54,14 @@ function handleClick(ev) {
 }
 
 onMounted(() => {
+    screenWidth.value = window.innerWidth;
+    screenHeight.value = window.innerHeight;
+
+    document.body.onresize = _ => {
+        screenWidth.value = window.innerWidth;
+        screenHeight.value = window.innerHeight;
+    }
+
     document.onclick = _ => {
         const box = workspace.value.getBoundingClientRect()
         workspaceX.value = box.left
@@ -67,9 +77,9 @@ onMounted(() => {
 
 <template>
     <svg class="workspace" ref="workspace" @mousemove="handleMouseMove">
-        <line :x1="i*20" y1="0" :x2="i*20" y2="1080" stroke="#ccc" stroke-width="0.5" v-for="i in Math.ceil(1920/20)" v-if="snapping" />
-        <line x1="0" :y1="i*20" x2="1920" :y2="i*20" stroke="#ccc" stroke-width="0.5" v-for="i in Math.ceil(1920/20)" v-if="snapping" />
-        <rect x="0" y="0" width="1920" height="1080" fill="#0000" @click="handleClick" />
+        <line :x1="i*20" y1="0" :x2="i*20" :y2="screenHeight" stroke="#ccc" stroke-width="0.5" v-for="i in Math.ceil(screenWidth/20)" v-if="snapping" />
+        <line x1="0" :y1="i*20" :x2="screenWidth" :y2="i*20" stroke="#ccc" stroke-width="0.5" v-for="i in Math.ceil(screenHeight/20)" v-if="snapping" />
+        <rect x="0" y="0" :width="screenWidth" :height="screenHeight" fill="#0000" @click="handleClick" />
         <g v-for="(connection, id) in store.connections">
             <ConnectionComponent :id="id" :mode="mode" />
         </g>
