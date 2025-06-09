@@ -1,12 +1,43 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gatelab</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A logic gate simulator">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=block" onload="this.rel='stylesheet'">
+        <noscript>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=block">
+        </noscript>
+        <title>gatelab</title>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="module" src="/src/main.js"></script>
+        <noscript>
+            <style>
+                * {
+                    display: none;
+                }
+                noscript * {
+                    display: block;
+                }
+                noscript div {
+                    position: absolute;
+                    width: 100vw;
+                    height: 100vh;
+                    background-color: #eeeeee;
+                    font-family: 'Fira Code', monospace;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                }
+            </style>
+            <div>
+                Your browser does not support JavaScript or has it disabled. Please enable JavaScript to enjoy this site.
+            </div>
+        </noscript>
+    </body>
 </html>
