@@ -4,7 +4,7 @@ import GateComponent from "@/components/GateComponent.vue";
 import { store } from "@/store.js";
 import ConnectionComponent from "@/components/ConnectionComponent.vue";
 import FreeNodeComponent from "@/components/FreeNodeComponent.vue";
-import {And, Not, Nand, Input, Output, FreeNode, Connection, Node} from "@/gates.js";
+import {And, Not, Nand, Or, Input, Output, FreeNode, Connection, Node, Nor, Xor} from "@/gates.js";
 import {onMounted, ref, useTemplateRef} from "vue";
 
 const mode = ref('edit');
@@ -95,10 +95,10 @@ onMounted(() => {
     <div class="toolbar">
         <button @click="store.gates.push(new Not(20, 20))" :disabled="mode !== 'edit'">NOT</button>
         <button @click="store.gates.push(new And(20, 20))" :disabled="mode !== 'edit'">AND</button>
-        <button :disabled="mode !== 'edit'">OR</button>
-        <button :disabled="mode !== 'edit'">XOR</button>
+        <button @click="store.gates.push(new Or(20, 20))" :disabled="mode !== 'edit'">OR</button>
+        <button @click="store.gates.push(new Xor(20, 20))" :disabled="mode !== 'edit'">XOR</button>
         <button @click="store.gates.push(new Nand(20, 20))" :disabled="mode !== 'edit'">NAND</button>
-        <button :disabled="mode !== 'edit'">NOR</button>
+        <button @click="store.gates.push(new Nor(20, 20))" :disabled="mode !== 'edit'">NOR</button>
         <div class="separator"></div>
         <button @click="store.gates.push(new Input(20, 20))"  :disabled="mode !== 'edit'">Input</button>
         <button @click="store.gates.push(new Output(20, 20))" :disabled="mode !== 'edit'">Output</button>

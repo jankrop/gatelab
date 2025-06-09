@@ -7,6 +7,9 @@
     import Input from "@/components/gates/Input.vue";
     import Output from "@/components/gates/Output.vue";
     import {Connection} from "@/gates.js";
+    import Or from "@/components/gates/Or.vue";
+    import Nor from "@/components/gates/Nor.vue";
+    import Xor from "@/components/gates/Xor.vue";
 
     const props = defineProps({
         id: Number,
@@ -126,6 +129,9 @@
         <And v-if="gate.name === 'and'" :x="x" :y="y" />
         <Nand v-if="gate.name === 'nand'" :x="x" :y="y" />
         <Not v-if="gate.name === 'not'" :x="x" :y="y" />
+        <Or v-if="gate.name === 'or'" :x="x" :y="y" />
+        <Nor v-if="gate.name === 'nor'" :x="x" :y="y" />
+        <Xor v-if="gate.name === 'xor'" :x="x" :y="y" />
         <Input v-if="gate.name === 'input'" :x="x" :y="y" :state="gate.nodes.out.state" />
         <Output v-if="gate.name === 'output'" :x="x" :y="y" :state="gate.nodes.a.state" />
     </g>
